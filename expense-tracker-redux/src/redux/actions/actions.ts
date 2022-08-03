@@ -1,0 +1,2 @@
+export const ADD_TRANSACTION = "ADD_TRANSACTION" as const;
+export const REMOVE_TRANSACTION = "REMOVE_TRANSACTION" as const;
