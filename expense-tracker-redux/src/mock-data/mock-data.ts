@@ -55,6 +55,11 @@ export const CATEGORIES: ICategory[] = [
         category: "expense",
         categoryDetails: "Pernicious habits",
     },
+    {
+        id: 9,
+        category: "expense",
+        categoryDetails: "Other costs",
+    },
 ];
 
 export const TRANSACTIONS: ITransaction[] = [];
