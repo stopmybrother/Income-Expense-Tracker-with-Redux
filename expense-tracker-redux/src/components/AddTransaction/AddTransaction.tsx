@@ -5,10 +5,13 @@ import { addTransaction, removeTransaction } from "../../redux/actions/transacti
 import { FlexContainerNotCentered } from "../../styled-components/components/Container";
 import { Text } from "../../styled-components/components/Text";
 import { Form, Label, Input, SubmitButton } from "../../styled-components/components/Form";
+import { SelectCategoryOfTransaction } from "../SelectCategoryOfTransaction/SelectCategoryOfTransaction";
 
 export const AddTransaction = () => {
     const [ textValue, setTextValue ] = useState( "" );
     const [ amountValue, setAmountValue ] = useState( "" );
+    const [ incomeOrExpense, setIncomeOrExpense ] = useState( "" );
+    const [ selectedCategory, setSelectedCategory ] = useState( "" );
 
     const dispatch = useDispatch();
 
@@ -58,6 +61,25 @@ export const AddTransaction = () => {
             <Form
                 onSubmit = { handleSubmit }
             >
+                <FlexContainerNotCentered
+                    flexDirection = "column"
+                    alignItems = "left"
+                    rowGap = { 10 }
+                >
+                    <Text
+                        fontSize = { 18 }
+                        lineHeight = { 22 }
+                        fontWeight = { 600 }
+                    >
+                        Select category of income / expenses
+                    </Text>
+                    <SelectCategoryOfTransaction
+                        incomeOrExpense = { incomeOrExpense }
+                        setIncomeOrExpense = { setIncomeOrExpense }
+                        selectedCategory = { selectedCategory }
+                        setSelectedCategory = { setSelectedCategory }
+                    />
+                </FlexContainerNotCentered>
                 <FlexContainerNotCentered
                     flexDirection = "column"
                     alignItems = "left"
