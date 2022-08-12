@@ -1,9 +1,6 @@
 import React, { useState} from "react";
-import { COLOR } from "../../styled-components/color-constants";
 import { SelectWrapper, SelectDropdownBtn, SelectContent, SelectItem } from "../../styled-components/components/Select";
 import { ICategory, CATEGORIES } from "../../mock-data/mock-data";
-import { FlexContainerNotCentered } from "../../styled-components/components/Container";
-import { Text } from "../../styled-components/components/Text";
 
 interface ISelectCategoryOfTransaction {
     incomeOrExpense: string;
