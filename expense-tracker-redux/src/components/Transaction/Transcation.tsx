@@ -27,6 +27,7 @@ export const Transaction = (
     );
     return (
         <ListLi
+            key = { key }
             onMouseEnter = { () => setIsShown(true) }
             onMouseLeave = { () => setIsShown(false) }
             status = { transaction.amount < 0 ? "expense" : "income" }
