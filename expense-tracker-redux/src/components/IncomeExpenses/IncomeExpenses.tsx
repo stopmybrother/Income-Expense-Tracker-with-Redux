@@ -1,22 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { transactionsSelector } from "../../redux/selectors/transactionsSelector/transactionsSelector";
-import { ITransaction } from "../../mock-data/mock-data";
 import { COLOR } from "../../styled-components/color-constants";
 import { FlexContainerCentered, FlexContainerNotCentered } from "../../styled-components/components/Container";
 import { Text }  from "../../styled-components/components/Text";
 
-export const IncomeExpenses = () => {
-    const transactions = useSelector( transactionsSelector );
-    const amounts = transactions.map( ( transaction: ITransaction ) => transaction.amount );
-    const income = amounts
-        .filter( ( amount: number ) => amount > 0 )
-        .reduce( ( prev:number, amount: number) => ( prev += amount ), 0 )
-        .toFixed( 2 );
-    const expense = amounts
-        .filter( ( amount: number ) => amount < 0 )
-        .reduce( ( prev:number, amount: number) => ( prev += Math.abs(amount) ), 0 )
-        .toFixed( 2 );
+interface IIncomeExpenses {
+    incomes: number;
+    expenses: number;
+};
+
+export const IncomeExpenses = (
+                                {
+                                    incomes,
+                                    expenses
+                                }: IIncomeExpenses ) => {
     return (
         <FlexContainerCentered
             maxWidth = { 500 }
@@ -42,7 +38,7 @@ export const IncomeExpenses = () => {
                     fontWeight = { 600 }
                     colorText = { COLOR.green }
                 >
-                    ${ income }
+                    ${ incomes }
                 </Text>
             </FlexContainerNotCentered>
             <FlexContainerNotCentered
@@ -63,7 +59,7 @@ export const IncomeExpenses = () => {
                     fontWeight = { 600 }
                     colorText = { COLOR.red }
                 >
-                    ${ expense }
+                    ${ expenses }
                 </Text>
             </FlexContainerNotCentered>
         </FlexContainerCentered>
