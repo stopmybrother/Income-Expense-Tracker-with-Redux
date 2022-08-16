@@ -1,5 +1,8 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
+interface ISelectWrapper {
+    shaking?: boolean;
+};
 interface ISelectDropdownBtn {
     isOpened: boolean;
     selectedCategoryColor: string;
@@ -8,9 +11,31 @@ interface ISelectItem {
     category: string;
 };
 
-export const SelectWrapper = styled.div`
+const shake = keyframes`
+  0% {
+    transform: rotate(-1.5deg);
+  }
+  25% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(-0.75deg);
+  }
+  75% {
+    transform: rotate(0.75deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+`;
+
+export const SelectWrapper = styled.div<ISelectWrapper>`
   position: relative;
   user-select: none;
+  ${ p => p.shaking && css`
+    animation-name: ${ shake };
+    animation-duration: 0.5s;
+  ` } 
 `;
 export const SelectContent = styled.div`
   position: absolute;
