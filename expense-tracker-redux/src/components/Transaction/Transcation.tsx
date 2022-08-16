@@ -30,11 +30,11 @@ export const Transaction = (
             key = { key }
             onMouseEnter = { () => setIsShown(true) }
             onMouseLeave = { () => setIsShown(false) }
-            status = { transaction.amount < 0 ? "expense" : "income" }
+            status = { transaction.category === "expense" ? "expense" : "income" }
         >
             { transaction.text }
             <Span>
-                { transaction.amount < 0 ? "-" : "+" } ${ Math.abs( transaction.amount ) }
+                { transaction.category === "expense" ? "-" : "+" } ${ Math.abs( transaction.amount ) }
             </Span>
             { isShown &&
                 <DeleteButton
