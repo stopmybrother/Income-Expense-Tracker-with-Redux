@@ -1,5 +1,7 @@
 export interface ITransaction {
     id: number;
+    category: string;
+    categoryDetails: string;
     text: string;
     amount: number;
 };
