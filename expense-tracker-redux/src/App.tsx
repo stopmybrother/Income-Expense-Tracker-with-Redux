@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './App.css';
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { themes } from "./styled-components/themes";
+import { useSelector } from "react-redux";
+import { transactionsSelector } from "./redux/selectors/transactionsSelector/transactionsSelector";
+import { ITransaction } from "./mock-data/mock-data";
 import { Header } from "./components/Header/Header";
 import { Wrapper } from "./styled-components/components/Wrapper";
 import { FlexContainerCentered } from "./styled-components/components/Container";
@@ -43,6 +46,25 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 export const App = () => {
+    const transactions = useSelector( transactionsSelector );
+    const incomeAmount: number = useMemo( () =>
+        +transactions
+            .filter( ( transaction: ITransaction ) => transaction.category === "income" )
+            .map( ( transaction: ITransaction ) => transaction.amount )
+            .reduce( ( prev: number, amount: number) => ( prev += amount ), 0 )
+            .toFixed( 2 ),
+        [ transactions ]
+    );
+    const expenseAmount: number = useMemo( () =>
+        +transactions
+            .filter( ( transaction: ITransaction ) => transaction.category === "expense" )
+            .map( ( transaction: ITransaction ) => transaction.amount )
+            .reduce( ( prev:number, amount: number) => ( prev += Math.abs(amount) ), 0 )
+            .toFixed( 2 ), [ transactions ]
+    );
+    const totalAmount: number = useMemo( () =>
+        incomeAmount - expenseAmount,
+        [ incomeAmount, expenseAmount ] );
   return (
       <ThemeProvider theme={ themes }>
         <GlobalStyle />
@@ -53,8 +75,13 @@ export const App = () => {
                   flexDirection = "column"
                   rowGap = { 35 }
               >
-                  <Balance />
-                  <IncomeExpenses />
+                  <Balance
+                      totalAmount = { totalAmount }
+                  />
+                  <IncomeExpenses
+                      incomes = { incomeAmount }
+                      expenses = { expenseAmount }
+                  />
                   <TransactionList />
                   <AddTransaction />
               </FlexContainerCentered>
