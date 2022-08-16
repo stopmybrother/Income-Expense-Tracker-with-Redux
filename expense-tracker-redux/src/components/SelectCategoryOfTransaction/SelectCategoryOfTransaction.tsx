@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { SelectWrapper, SelectDropdownBtn, SelectContent, SelectItem } from "../../styled-components/components/Select";
 import { ICategory, CATEGORIES } from "../../mock-data/mock-data";
 
@@ -7,18 +7,22 @@ interface ISelectCategoryOfTransaction {
     setIncomeOrExpense: any;
     selectedCategory: string;
     setSelectedCategory: any;
+    isSubmit: boolean;
 };
 
 export const SelectCategoryOfTransaction = ( {
                                                  incomeOrExpense,
                                                  setIncomeOrExpense,
                                                  selectedCategory,
-                                                 setSelectedCategory
+                                                 setSelectedCategory,
+                                                 isSubmit
                                              }: ISelectCategoryOfTransaction ) => {
     const [ isOpened, setIsOpened ] = useState( false );
 
     return (
-        <SelectWrapper>
+        <SelectWrapper
+            shaking = { isSubmit }
+        >
             <SelectDropdownBtn
                 onClick = { () => setIsOpened( !isOpened ) }
                 isOpened = { isOpened }
