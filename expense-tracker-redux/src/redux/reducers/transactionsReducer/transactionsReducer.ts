@@ -17,6 +17,8 @@ export const transactionsReducer = (
                 ...state,
                 {
                     id: payload.id,
+                    category: payload.category,
+                    categoryDetails: payload.categoryDetails,
                     text: payload.text,
                     amount: payload.amount,
                 }
