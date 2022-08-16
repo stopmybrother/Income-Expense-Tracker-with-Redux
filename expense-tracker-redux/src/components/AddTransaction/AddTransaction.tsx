@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { ITransaction } from "../../mock-data/mock-data";
-import { addTransaction, removeTransaction } from "../../redux/actions/transactionsActionCreator/transactionsActionCreator";
+import { addTransaction } from "../../redux/actions/transactionsActionCreator/transactionsActionCreator";
 import { FlexContainerNotCentered } from "../../styled-components/components/Container";
 import { Text } from "../../styled-components/components/Text";
 import { Form, Label, Input, SubmitButton } from "../../styled-components/components/Form";
@@ -12,6 +12,7 @@ export const AddTransaction = () => {
     const [ amountValue, setAmountValue ] = useState( "" );
     const [ incomeOrExpense, setIncomeOrExpense ] = useState( "" );
     const [ selectedCategory, setSelectedCategory ] = useState( "" );
+    const [ isSubmit, setIsSubmit ] = useState( false );
 
     const dispatch = useDispatch();
 
@@ -19,6 +20,8 @@ export const AddTransaction = () => {
         ( transaction: ITransaction ) =>
             dispatch( addTransaction( {
                 id: transaction.id,
+                category: transaction.category,
+                categoryDetails: transaction.categoryDetails,
                 text: transaction.text,
                 amount: transaction.amount,
             } ) ),
@@ -36,17 +39,27 @@ export const AddTransaction = () => {
 
     const handleSubmit = useCallback( ( e: React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault();
-        if ( textValue && amountValue ) {
+        if ( !selectedCategory && textValue && amountValue ) {
+            setIsSubmit( true );
+            setTimeout(
+                () => setIsSubmit(false),
+                500
+            );
+        };
+        if ( selectedCategory && textValue && amountValue ) {
             dispatchedAddTransaction( {
                 id: ( new Date() ).getTime(),
+                category: incomeOrExpense,
+                categoryDetails: selectedCategory,
                 text: textValue,
-                amount: +amountValue,
+                amount: +amountValue < 0 ? +amountValue * -1 : +amountValue,
             } );
-            setTextValue("");
-            setAmountValue("");
+            setIncomeOrExpense( "" );
+            setSelectedCategory( "" );
+            setTextValue( "" );
+            setAmountValue( "" );
         }
-    }, [ textValue, amountValue ] );
-
+    }, [ selectedCategory, textValue, amountValue ] );
     return (
         <FlexContainerNotCentered
             flexDirection = "column"
@@ -78,6 +91,7 @@ export const AddTransaction = () => {
                         setIncomeOrExpense = { setIncomeOrExpense }
                         selectedCategory = { selectedCategory }
                         setSelectedCategory = { setSelectedCategory }
+                        isSubmit = { isSubmit }
                     />
                 </FlexContainerNotCentered>
                 <FlexContainerNotCentered
@@ -102,7 +116,7 @@ export const AddTransaction = () => {
                     rowGap = { 10 }
                 >
                     <Label>
-                        Amount (negative - expense, positive - income)
+                        Amount
                     </Label>
                     <Input
                         type = "number"
